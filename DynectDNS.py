@@ -190,11 +190,11 @@ class DynectRest(object):
         while response.status == 307:
             time.sleep(1)
             uri = response.getheader('Location')
-            body = response.read()
             self._debug("Polling %s" % uri)
 
             self.send_command(uri, "GET", '')
             response = self._conn.getresponse()
+            body = response.read()
 
         return response, body
 
