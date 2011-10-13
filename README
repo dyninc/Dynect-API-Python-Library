@@ -1,0 +1,34 @@
+This is a simple Python wrapper for interacting with the Dynect Managed DNS
+REST API.  
+
+As it makes use of a JSON interface, one must either have the simplejson
+module installed, or have Python 2.6/2.7 which have a JSON library that comes
+with the language.  Python 3.x is not currently specifically supported.
+
+Use is fairly simple:
+
+import sys
+from DynectDNS import DynectRest
+
+dynect = DynectRest()
+
+# Log in
+arguments = {
+	'customer_name': 'my_cust',
+	'user_name': 'my_user',  
+	'password': 'my_pass',
+}
+response = dynect.execute('/Session/', 'POST', arguments)
+
+if response['status'] != 'success':
+	sys.exit("Incorrect credentials")
+
+# Perform action
+response = dynect.execute('/Zone/', 'GET')
+zone_resources = response['data']
+
+# Log out, to be polite
+dynect.execute('/Session/', 'DELETE')
+
+Documentation on the REST resources can be found at 
+https://manage.dynect.net/help/docs/api2/rest/resources/
