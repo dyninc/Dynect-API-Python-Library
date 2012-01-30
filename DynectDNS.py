@@ -87,7 +87,7 @@ class DynectRest(object):
 
             orig_value = self.poll_incomplete
             self.poll_incomplete = False
-            self.execute('/REST/Sesssion', 'DELETE')
+            self.execute('/REST/Session', 'DELETE')
             self.poll_incomplete = orig_value
 
             self._token = None
