@@ -42,7 +42,7 @@ class DynectRest(object):
     @type api_version: C{str}
     """
 
-    def __init__(self, host='api.dynect.net', port=443, ssl=True):
+    def __init__(self, host='api.dynect.net', port=443, ssl=True, api_version="current"):
         """
         Basic initializer method
 
@@ -61,7 +61,7 @@ class DynectRest(object):
         self.poll_incomplete = True
 
         self.verbose = False
-        self.api_version = "current"
+        self.api_version = api_version
         self.content_type = "application/json"
 
         self._token = None
