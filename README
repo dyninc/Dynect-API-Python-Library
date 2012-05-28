@@ -8,9 +8,9 @@ with the language.  Python 3.x is not currently specifically supported.
 Use is fairly simple:
 
 import sys
-from DynectDNS import DynectRest
+from dynect.DynectDNS import DynectRest
 
-dynect = DynectRest()
+rest_iface = DynectRest()
 
 # Log in
 arguments = {
@@ -18,17 +18,17 @@ arguments = {
 	'user_name': 'my_user',  
 	'password': 'my_pass',
 }
-response = dynect.execute('/Session/', 'POST', arguments)
+response = rest_iface.execute('/Session/', 'POST', arguments)
 
 if response['status'] != 'success':
 	sys.exit("Incorrect credentials")
 
 # Perform action
-response = dynect.execute('/Zone/', 'GET')
+response = rest_iface.execute('/Zone/', 'GET')
 zone_resources = response['data']
 
 # Log out, to be polite
-dynect.execute('/Session/', 'DELETE')
+rest_iface.execute('/Session/', 'DELETE')
 
 Documentation on the REST resources can be found at 
 https://manage.dynect.net/help/docs/api2/rest/resources/
