@@ -2,7 +2,7 @@ import os
 from distutils.core import setup
 
 # sync with __init__.py
-version = '0.2'
+version = '0.3'
 
 setup(
     name="DynectDNS",
@@ -15,7 +15,8 @@ setup(
     url="https://github.com/dyninc/Dynect-API-Python-Library",
     packages=['dynect'],
     classifiers=[
-        'Programming Language :: Python :: 2 :: Only',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3',
         'Topic :: Internet :: Name Service (DNS)',
         'Topic :: Software Development :: Libraries', 
     ],

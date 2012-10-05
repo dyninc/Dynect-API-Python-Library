@@ -4,11 +4,10 @@ Managed DNS API via its REST interface.  After instantiating a L{DynectRest}
 object, call the L{DynectRest.connect} method and then the most commonly used
 method will be L{DynectRest.execute}
 
-Requires Python 2.6 or higher, or the "simplejson" package.  Not currently
-designed to work with Python 3.x
+Requires Python 2.6 or higher, or the "simplejson" package.
 """
 
-import sys
+import sys, time
 try:
     import json
 except ImportError:
@@ -17,7 +16,13 @@ except ImportError:
     except ImportError:
         sys.exit("Could not find json or simplejson libraries.")
         
-import httplib, time, urllib
+if sys.version_info[0] == 2:
+    from httplib import HTTPConnection, HTTPSConnection
+    from urllib import pathname2url
+
+elif sys.version_info[0] == 3:
+    from http.client import HTTPConnection, HTTPSConnection
+    from urllib.request import pathname2url
 
 class DynectRest(object):
     """
@@ -42,7 +47,9 @@ class DynectRest(object):
     @type api_version: C{str}
     """
 
-    def __init__(self, host='api.dynect.net', port=443, ssl=True, api_version="current"):
+    def __init__(
+        self, host='api.dynect.net', port=443, ssl=True, api_version="current"
+    ):
         """
         Basic initializer method
 
@@ -100,14 +107,14 @@ class DynectRest(object):
                 self.host, self.port
             )
             self._debug(msg)
-            self._conn = httplib.HTTPSConnection(self.host, self.port)
+            self._conn = HTTPSConnection(self.host, self.port)
 
         else:
             msg = "Establishing unencrypted connection to %s:%s\n" % (
                 self.host, self.port
             )
             self._debug(msg)
-            self._conn = httplib.HTTPConnection(self.host, self.port)
+            self._conn = HTTPConnection(self.host, self.port)
 
     def execute(self, uri, method, args = None):
         """
@@ -139,7 +146,7 @@ class DynectRest(object):
             msg = "%s is not a valid HTTP method.  Please use one of %s" % (
                 method, ", ".join(self._valid_methods)
             )
-            raise ValueError, msg
+            raise ValueError(msg)
 
         # Prepare arguments
         if args is None:
@@ -161,7 +168,10 @@ class DynectRest(object):
             response, body = self.poll_response(response, body)
             self._last_response = response
 
-        ret_val = json.loads(body)
+        if sys.version_info[0] == 2:
+            ret_val = json.loads(body)
+        elif sys.version_info[0] == 3:
+            ret_val = json.loads(body.decode('UTF-8'))
 
         self._meta_update(uri, method, ret_val)
 
@@ -190,7 +200,7 @@ class DynectRest(object):
         while response.status == 307:
             time.sleep(1)
             uri = response.getheader('Location')
-            self._debug("Polling %s" % uri)
+            self._debug("Polling %s\n" % uri)
 
             self.send_command(uri, "GET", '')
             response = self._conn.getresponse()
@@ -213,7 +223,7 @@ class DynectRest(object):
         @type args: C{str}
         """
         if '%' not in uri:
-            uri = urllib.pathname2url(uri)
+            uri = pathname2url(uri)
 
         self._conn.putrequest(method, uri)
 
@@ -233,7 +243,11 @@ class DynectRest(object):
         self._conn.putheader('Content-length', '%d' % len(args))
         self._conn.endheaders()
 
-        self._conn.send(args)
+        if sys.version_info[0] == 2:
+            self._conn.send(args)
+
+        elif sys.version_info[0] == 3:
+            self._conn.send(bytes(args, 'UTF-8'))
 
     def format_arguments(self, args):
         """

@@ -1,0 +1,12 @@
+2012-10-05 Cole Tuininga <ctuininga@dyn.com>
+	* Version 0.3
+	* Compatibility update to work with Python 3, incorporating patches suggested by Jonathan Kamens <jkamens@quantopian.com>
+	* Added a newline to debug output when polling for a result
+
+2012-05-27 Cole Tuininga <ctuininga@dyn.com>
+	* Version 0.2
+	* Minor reorg to make it easier to add the library to PyPI
+
+2011-10-08 Cole Tuininga <ctuininga@dyn.com>
+	* Version 0.1
+	* Initial release
