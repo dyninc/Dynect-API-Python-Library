@@ -3,7 +3,7 @@ REST API.
 
 As it makes use of a JSON interface, one must either have the simplejson
 module installed, or have Python 2.6/2.7 which have a JSON library that comes
-with the language.  Python 3.x is not currently specifically supported.
+with the language.
 
 Use is fairly simple:
 
