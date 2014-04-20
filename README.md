@@ -40,6 +40,7 @@ with the language.
 
 Use is fairly simple:
 
+```python
 import sys
 from dynect.DynectDNS import DynectRest
 
@@ -62,6 +63,6 @@ zone_resources = response['data']
 
 # Log out, to be polite
 rest_iface.execute('/Session/', 'DELETE')
+```
 
-Documentation on the REST resources can be found at 
-https://manage.dynect.net/help/docs/api2/rest/resources/
+Documentation on the REST resources can be found on the [DynECT Help site](https://help.dynect.net/dns-api-knowledge-base/)
