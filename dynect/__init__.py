@@ -2,4 +2,4 @@
 version = '0.1'
 version_info = (0, 1)
 
-from DynectDNS import DynectRest
+from .DynectDNS import DynectRest
