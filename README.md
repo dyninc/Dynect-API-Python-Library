@@ -1,3 +1,5 @@
+**This package has been deprecated in favor of [Dyn-Python](https://github.com/dyninc/dyn-python)**
+
 Dyn Inc, Integration Team Deliverable
 "Copyright © 2013, Dyn Inc.
 All rights reserved.
